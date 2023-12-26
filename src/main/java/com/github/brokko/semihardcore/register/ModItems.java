@@ -14,7 +14,9 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BrokkosMod.MODID);
 
     public static final RegistryObject<Item> SOUL = ITEMS.register("soul",
-            () -> new Item(new Item.Properties().stacksTo(16)));
+            () -> new Item(new Item.Properties()
+                    .fireResistant()
+                    .stacksTo(16)));
 
     public static final RegistryObject<Item> KNIFE = ITEMS.register("knife",
             () -> new KnifeItem(new Item.Properties()

@@ -34,7 +34,8 @@ public class KnifeItem extends Item {
         // Replace knife_bloody with knife
         InventoryHelper.replace(player, stack, new ItemStack(ModItems.KNIFE_BLOODY.get()));
 
-        // TODO damage player
+        // Damage player to 0.5f health
+        player.hurt(player.damageSources().cramming(), player.getHealth() - 0.5f);
 
         return InteractionResultHolder.success(stack);
     }

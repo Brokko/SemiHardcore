@@ -83,15 +83,9 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerChangeGamemode(PlayerEvent.PlayerChangeGameModeEvent event) { System.out.println("CALLED");
-        // Allow player everything after changing game mode
-        Player player = event.getEntity();
-
-        player.setInvisible(true);
-        player.setInvulnerable(true);
-        player.setSilent(true);
-
-        player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> data.setIsDead(false));
+    public static void onPlayerChangeGamemode(PlayerEvent.PlayerChangeGameModeEvent event) {
+        // Set "isDead" flag to false
+        event.getEntity().getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> data.setIsDead(false));
     }
 
     @SubscribeEvent

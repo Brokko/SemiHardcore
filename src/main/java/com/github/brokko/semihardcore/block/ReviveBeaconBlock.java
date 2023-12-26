@@ -14,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -30,22 +31,22 @@ public class ReviveBeaconBlock extends Block implements EntityBlock {
     private static final Block[][][] ID_MATRIX = new Block[3][3][3];
 
     static {
-        ID_MATRIX[0][0][0] = Blocks.NETHERRACK;
-        ID_MATRIX[0][0][1] = Blocks.END_STONE;
-        ID_MATRIX[0][0][2] = Blocks.NETHERRACK;
+        ID_MATRIX[0][0][0] = Blocks.IRON_BLOCK;
+        ID_MATRIX[0][0][1] = Blocks.GOLD_BLOCK;
+        ID_MATRIX[0][0][2] = Blocks.IRON_BLOCK;
 
         ID_MATRIX[0][1][0] = Blocks.DIAMOND_BLOCK;
         ID_MATRIX[0][1][2] = Blocks.DIAMOND_BLOCK;
 
-        ID_MATRIX[1][0][1] = Blocks.END_STONE;
-        ID_MATRIX[1][0][0] = Blocks.END_STONE;
-        ID_MATRIX[1][0][2] = Blocks.END_STONE;
+        ID_MATRIX[1][0][1] = Blocks.GOLD_BLOCK;
+        ID_MATRIX[1][0][0] = Blocks.GOLD_BLOCK;
+        ID_MATRIX[1][0][2] = Blocks.GOLD_BLOCK;
 
-        ID_MATRIX[1][2][1] = Blocks.NETHERITE_BLOCK;
+        ID_MATRIX[1][2][1] = Blocks.ENCHANTING_TABLE;
 
-        ID_MATRIX[2][0][0] = Blocks.NETHERRACK;
-        ID_MATRIX[2][0][1] = Blocks.END_STONE;
-        ID_MATRIX[2][0][2] = Blocks.NETHERRACK;
+        ID_MATRIX[2][0][0] = Blocks.IRON_BLOCK;
+        ID_MATRIX[2][0][1] = Blocks.GOLD_BLOCK;
+        ID_MATRIX[2][0][2] = Blocks.IRON_BLOCK;
 
         ID_MATRIX[2][1][0] = Blocks.DIAMOND_BLOCK;
         ID_MATRIX[2][1][2] = Blocks.DIAMOND_BLOCK;
@@ -114,9 +115,9 @@ public class ReviveBeaconBlock extends Block implements EntityBlock {
             toRevive.teleportTo(pos.getX(), pos.getY() + 1, pos.getZ());
 
             // Allow player visible interactions
-            toRevive.setInvisible(true);
-            toRevive.setInvulnerable(true);
-            toRevive.setSilent(true);
+            toRevive.setInvisible(false);
+            toRevive.setInvulnerable(false);
+            toRevive.setSilent(false);
 
             // Set "isDead" flag to false, allowing block interaction
             data.setIsDead(false);

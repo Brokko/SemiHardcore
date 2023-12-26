@@ -4,21 +4,16 @@ import com.github.brokko.semihardcore.config.ConfigHolder;
 import com.github.brokko.semihardcore.events.ClientEvent;
 import com.github.brokko.semihardcore.events.ModEvents;
 import com.github.brokko.semihardcore.register.*;
-import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
 
 @Mod(BrokkosMod.MODID)
 public class BrokkosMod {
     public static final String MODID = "semihardcore";
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     public BrokkosMod() {
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
@@ -33,10 +28,12 @@ public class BrokkosMod {
 
         // TODO später
         // Drops on explosion
-        // Knife damages player
         // Partikel bei revive
         // config: start leben und messer schaden
         // Leben in tab liste oder buch anzeigen
+        // Kopf 1/3 wahrscheinlichkeit
+
+        // TODO Einschränkung des toten Spielers, sonst freie erkundung der welt
 
         // Register Configs // TODO Nutzen im schaden von messer zu regulieren
         modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC);
