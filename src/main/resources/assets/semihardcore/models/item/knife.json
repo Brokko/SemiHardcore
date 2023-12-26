@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "semihardcore:item/knife"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "is_bloody": 0.0
+      },
+      "model": "semihardcore:item/knife_bloody"
+    },
+    {
+      "predicate": {
+        "is_bloody": 1.0
+      },
+      "model": "semihardcore:item/knife"
+    }
+  ]
+}
