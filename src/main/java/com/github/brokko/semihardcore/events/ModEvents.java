@@ -23,8 +23,12 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = SemiHardcoreMod.MODID, value = Dist.DEDICATED_SERVER, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEvents {
+    public static final List<Player> DEAD_PLAYERS = new LinkedList<>();
 
     @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
@@ -49,6 +53,11 @@ public class ModEvents {
             event.getOriginal().getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(oldStore -> {
                 event.getEntity().getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(newStore -> {
                     newStore.copyForm(oldStore);
+
+                    if (newStore.isDead()) {
+                        DEAD_PLAYERS.remove(event.getOriginal());
+                        DEAD_PLAYERS.add(event.getEntity());
+                    }
                 });
             });
 
@@ -75,8 +84,7 @@ public class ModEvents {
 
                 // Forbids visible effects other Player could see (resets on game mode change)
                 if (data.isDead()) {
-                    player.setInvulnerable(true);
-                    player.setSilent(true);
+                    DEAD_PLAYERS.add(player);
                 }
             });
         }
@@ -84,9 +92,15 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {
-        event.player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
+        if (!DEAD_PLAYERS.contains(event.player))
+            return;
+
+        Player player = event.player;
+        player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
             if (data.isDead()) {
-                event.player.setInvisible(data.isDead());
+                player.setInvisible(data.isDead());
+                player.setInvulnerable(true);
+                player.setSilent(true);
             }
         });
     }
@@ -98,24 +112,37 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void onEntityItemPickUpEvent(EntityItemPickupEvent event) {
-        // Disables item picking, when player is dead
-        event.getEntity().getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
+    public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+        player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
             if (data.isDead()) {
-                event.setCanceled(true);
-                event.setResult(Event.Result.DENY);
+                DEAD_PLAYERS.add(player);
             }
         });
     }
 
     @SubscribeEvent
+    public static void onPlayerLoggedOutEvent(PlayerEvent.PlayerLoggedOutEvent event) {
+        DEAD_PLAYERS.remove(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public static void onEntityItemPickUpEvent(EntityItemPickupEvent event) {
+        if (!DEAD_PLAYERS.contains(event.getEntity()))
+            return;
+
+        // Disables item picking, when player is dead
+        event.setCanceled(true);
+        event.setResult(Event.Result.DENY);
+    }
+
+    @SubscribeEvent
     public static void onPlayerInteractionEvent(PlayerInteractEvent event) {
+        if (!DEAD_PLAYERS.contains(event.getEntity()))
+            return;
+
         // Disables every interaction when a player is dead
-        event.getEntity().getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
-            if (data.isDead()) {
-                event.setCanceled(true);
-                event.setResult(Event.Result.DENY);
-            }
-        });
+        event.setCanceled(true);
+        event.setResult(Event.Result.DENY);
     }
 }

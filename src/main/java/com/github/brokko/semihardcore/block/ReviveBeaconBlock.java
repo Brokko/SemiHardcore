@@ -1,6 +1,7 @@
 package com.github.brokko.semihardcore.block;
 
 import com.github.brokko.semihardcore.capability.PlayerCapabilityProvider;
+import com.github.brokko.semihardcore.events.ModEvents;
 import com.github.brokko.semihardcore.register.ModBlockEntity;
 import com.github.brokko.semihardcore.register.ModItems;
 import com.github.brokko.semihardcore.util.InventoryHelper;
@@ -114,12 +115,9 @@ public class ReviveBeaconBlock extends Block implements EntityBlock {
             // Set placer position on top of beacon
             toRevive.teleportTo(pos.getX(), pos.getY() + 1, pos.getZ());
 
-            // Allow player visible interactions
-            toRevive.setInvulnerable(false);
-            toRevive.setSilent(false);
-
             // Set "isDead" flag to false, allowing block interaction
             data.setIsDead(false);
+            ModEvents.DEAD_PLAYERS.remove(player); // TODO Should not be call here
         });
 
         return InteractionResult.SUCCESS;
