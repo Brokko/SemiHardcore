@@ -115,7 +115,6 @@ public class ReviveBeaconBlock extends Block implements EntityBlock {
             toRevive.teleportTo(pos.getX(), pos.getY() + 1, pos.getZ());
 
             // Allow player visible interactions
-            toRevive.setInvisible(false);
             toRevive.setInvulnerable(false);
             toRevive.setSilent(false);
 

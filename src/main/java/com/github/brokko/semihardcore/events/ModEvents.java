@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -22,7 +23,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = SemiHardcoreMod.MODID, value = Dist.DEDICATED_SERVER, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEvents {
 
     @SubscribeEvent
@@ -56,11 +57,6 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        event.getEntity().setInvisible(true);
-    }
-
-    @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player) {
             // Spawn soul item on player death
@@ -79,12 +75,20 @@ public class ModEvents {
 
                 // Forbids visible effects other Player could see (resets on game mode change)
                 if (data.isDead()) {
-                    player.setInvisible(true);
                     player.setInvulnerable(true);
                     player.setSilent(true);
                 }
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTickEvent(TickEvent.PlayerTickEvent event) {
+        event.player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
+            if (data.isDead()) {
+                event.player.setInvisible(data.isDead());
+            }
+        });
     }
 
     @SubscribeEvent
