@@ -13,9 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class PlayerCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
     public static final Capability<PlayerData> PLAYER_DATA = CapabilityManager.get(new CapabilityToken<>() { });
+    private final LazyOptional<PlayerData> optional = LazyOptional.of(this::createPlayerData);
 
     private PlayerData playerData;
-    private final LazyOptional<PlayerData> optional = LazyOptional.of(this::createPlayerData);
 
     public PlayerCapabilityProvider() {
 
@@ -30,9 +30,8 @@ public class PlayerCapabilityProvider implements ICapabilityProvider, INBTSerial
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == PLAYER_DATA) {
+        if(cap == PLAYER_DATA)
             return optional.cast();
-        }
 
         return LazyOptional.empty();
     }
@@ -40,7 +39,8 @@ public class PlayerCapabilityProvider implements ICapabilityProvider, INBTSerial
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
-        createPlayerData().saveNBTData(tag);
+        createPlayerData().saveNBTData(tag); // FEHLER
+        tag.putBoolean("sync", true);
         return tag;
     }
 

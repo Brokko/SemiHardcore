@@ -1,6 +1,6 @@
 package com.github.brokko.semihardcore.events;
 
-import com.github.brokko.semihardcore.BrokkosMod;
+import com.github.brokko.semihardcore.SemiHardcoreMod;
 import com.github.brokko.semihardcore.capability.PlayerCapabilityProvider;
 import com.github.brokko.semihardcore.capability.PlayerData;
 import com.github.brokko.semihardcore.register.ModItems;
@@ -22,7 +22,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = BrokkosMod.MODID, value = Dist.DEDICATED_SERVER, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber
 public class ModEvents {
 
     @SubscribeEvent
@@ -35,7 +35,7 @@ public class ModEvents {
         // If Player has no PlayerData capability add one
         if (event.getObject() instanceof Player player) {
             if (!player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).isPresent()) {
-                event.addCapability(new ResourceLocation(BrokkosMod.MODID, "properties"), new PlayerCapabilityProvider());
+                event.addCapability(new ResourceLocation(SemiHardcoreMod.MODID, "properties"), new PlayerCapabilityProvider());
             }
         }
     }
@@ -56,6 +56,11 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        event.getEntity().setInvisible(true);
+    }
+
+    @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player) {
             // Spawn soul item on player death
@@ -70,7 +75,7 @@ public class ModEvents {
             // Increase death count
             player.getCapability(PlayerCapabilityProvider.PLAYER_DATA).ifPresent(data -> {
                 data.increaseDeathCount();
-                data.setIsDead(data.getDeathCount() >= 3);
+                data.setIsDead(data.getDeathCount() >= SemiHardcoreMod.LIVES);
 
                 // Forbids visible effects other Player could see (resets on game mode change)
                 if (data.isDead()) {

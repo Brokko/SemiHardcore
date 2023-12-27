@@ -1,6 +1,6 @@
 package com.github.brokko.semihardcore.config;
 
-import com.github.brokko.semihardcore.BrokkosMod;
+import com.github.brokko.semihardcore.SemiHardcoreMod;
 import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -15,15 +15,15 @@ class ServerConfig {
         builder.push("general");
         serverBoolean = builder
                 .comment("An example boolean in the server config")
-                .translation(BrokkosMod.MODID + ".config.serverBoolean")
+                .translation(SemiHardcoreMod.MODID + ".config.serverBoolean")
                 .define("serverBoolean", true);
         serverStringList = builder
                 .comment("An example list of Strings in the server config")
-                .translation(BrokkosMod.MODID + ".config.serverStringList")
+                .translation(SemiHardcoreMod.MODID + ".config.serverStringList")
                 .define("serverStringList", new ArrayList<>());
         serverEnumDyeColor = builder
                 .comment("An example enum DyeColor in the server config")
-                .translation(BrokkosMod.MODID + ".config.serverEnumDyeColor")
+                .translation(SemiHardcoreMod.MODID + ".config.serverEnumDyeColor")
                 .defineEnum("serverEnumDyeColor", DyeColor.WHITE);
 
         builder.pop();
