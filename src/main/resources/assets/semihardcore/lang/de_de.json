@@ -1,7 +1,7 @@
 {
-  "block.semihardcore.revive_beacon": "Revive Beacon",
-  "item.semihardcore.knife": "Messer",
-  "item.semihardcore.knife_bloody": "Opferungsmesser",
+  "block.semihardcore.revive_beacon": "Wiederbelebungs Leuchtfeuer",
+  "item.semihardcore.knife": "Opferungsmesser",
+  "item.semihardcore.knife_bloody": "Blutiges Opferungsmesser",
   "item.semihardcore.soul": "Seele",
   "item.semihardcore.soul_chain": "Seelenkette"
 }

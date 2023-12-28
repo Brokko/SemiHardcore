@@ -20,10 +20,7 @@ public class SemiHardcoreMod {
     public static final String MODID = "semihardcore";
 
     public static final int LIVES = 3;
-    public static final double DEAD_WORLDBORDER = 100;
-
-    // TODO bad style: hat hier nicht zu suchen + sollte nicht das Player objekt halten
-    public static List<Player> dead = new LinkedList<>();
+    public static final double DEAD_WORLDBORDER = 50;
 
     public SemiHardcoreMod() {
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
@@ -36,16 +33,12 @@ public class SemiHardcoreMod {
         ModBlockEntity.BLOCK_ENTITIES.register(modEventBus);
         ModCreativeTab.CREATIVE_MODE_TABS.register(modEventBus);
 
-        // TODO Einschränkung des toten Spielers, sonst freie erkundung der welt
-
         // TODO später
         // Drops on explosion
         // Partikel bei revive
         // config: start leben und messer schaden
         // Leben in tab liste oder buch anzeigen
         // Kopf 1/3 wahrscheinlichkeit
-
-        // TODO performance cache PlayerCapabilityProvider.PLAYER_DATA für abgefragte spieler
 
         // Register Configs // TODO Nutzen im schaden von messer zu regulieren
         modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC);

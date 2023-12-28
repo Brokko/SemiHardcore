@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "semihardcore:item/knife"
+    "layer0": "semihardcore:item/soul_chain"
   }
 }

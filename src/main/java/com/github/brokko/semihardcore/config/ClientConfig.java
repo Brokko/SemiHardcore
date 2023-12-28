@@ -11,7 +11,7 @@ class ClientConfig {
     final ForgeConfigSpec.ConfigValue<ArrayList<String>> clientStringList;
     final ForgeConfigSpec.EnumValue<DyeColor> clientDyeColorEnum;
 
-    protected ClientConfig(final ForgeConfigSpec.Builder builder) {
+    protected ClientConfig(ForgeConfigSpec.Builder builder) {
         builder.push("general");
         clientBoolean = builder
                 .comment("An example boolean in the client config")

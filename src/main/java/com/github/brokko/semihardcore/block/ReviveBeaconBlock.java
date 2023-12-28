@@ -1,5 +1,6 @@
 package com.github.brokko.semihardcore.block;
 
+import com.github.brokko.semihardcore.capability.PlayerCapabilityCache;
 import com.github.brokko.semihardcore.capability.PlayerCapabilityProvider;
 import com.github.brokko.semihardcore.events.ModEvents;
 import com.github.brokko.semihardcore.register.ModBlockEntity;
@@ -23,6 +24,8 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.loading.FMLConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -117,7 +120,6 @@ public class ReviveBeaconBlock extends Block implements EntityBlock {
 
             // Set "isDead" flag to false, allowing block interaction
             data.setIsDead(false);
-            ModEvents.DEAD_PLAYERS.remove(player); // TODO Should not be call here
         });
 
         return InteractionResult.SUCCESS;

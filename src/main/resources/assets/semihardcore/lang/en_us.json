@@ -1,7 +1,7 @@
 {
   "block.semihardcore.revive_beacon": "Revive Beacon",
-  "item.semihardcore.knife": "Knife",
-  "item.semihardcore.knife_bloody": "Sacrificial Knife",
+  "item.semihardcore.knife": "Sacrificial Knife",
+  "item.semihardcore.knife_bloody": "Bloody sacrificial Knife",
   "item.semihardcore.soul": "Soul",
   "item.semihardcore.soul_chain": "Soul chain"
 }

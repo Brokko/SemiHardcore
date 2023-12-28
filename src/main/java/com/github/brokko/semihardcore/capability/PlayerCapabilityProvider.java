@@ -2,6 +2,7 @@ package com.github.brokko.semihardcore.capability;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -13,7 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class PlayerCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
     public static final Capability<PlayerData> PLAYER_DATA = CapabilityManager.get(new CapabilityToken<>() { });
+
     private final LazyOptional<PlayerData> optional = LazyOptional.of(this::createPlayerData);
+    private final PlayerCapabilityCache cache = new PlayerCapabilityCache();
 
     private PlayerData playerData;
 
@@ -23,12 +26,11 @@ public class PlayerCapabilityProvider implements ICapabilityProvider, INBTSerial
 
     private PlayerData createPlayerData() {
         if(playerData == null)
-            playerData = new PlayerData();
+            playerData = new PlayerData(cache);
 
         return playerData;
     }
 
-    @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if(cap == PLAYER_DATA)
             return optional.cast();
@@ -39,7 +41,7 @@ public class PlayerCapabilityProvider implements ICapabilityProvider, INBTSerial
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
-        createPlayerData().saveNBTData(tag); // FEHLER
+        createPlayerData().saveNBTData(tag);
         tag.putBoolean("sync", true);
         return tag;
     }
