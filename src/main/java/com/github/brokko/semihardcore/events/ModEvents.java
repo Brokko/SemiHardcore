@@ -22,7 +22,6 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -92,16 +91,15 @@ public class ModEvents {
 
         // If dead is bound through a soul chain, teleport him to bound player
         UUID deadPlayer = PlayerCapabilityCache.DEAD_BOUND.get(player);
-        if (deadPlayer != null) {
-            Player bound = level.getPlayerByUUID(PlayerCapabilityCache.DEAD_BOUND.get(player));
+        if (deadPlayer != null) { // UUID is never null, but player might be alive already
+            Player bound = level.getPlayerByUUID(deadPlayer);
             if (bound != null) {
                 Vec3 pos = bound.position();
                 if (pos.distanceTo(player.position()) > SemiHardcoreMod.DEAD_WORLDBORDER) {
                     player.teleportTo(pos.x, pos.y, pos.z);
+                    return;
                 }
             }
-
-            return;
         }
 
         // If dead has no bound player, teleport him to the nearest player
@@ -179,7 +177,7 @@ public class ModEvents {
         // Item has no method getting called when a Player
         // picks up the item, so we create or own
         ItemStack stack = event.getItem().getItem();
-        if(stack.getItem() instanceof SoulChainItem soulChain) {
+        if (stack.getItem() instanceof SoulChainItem soulChain) {
             soulChain.onPickUpByPlayer(stack, event.getEntity());
         }
     }
@@ -206,8 +204,8 @@ public class ModEvents {
             NonNullList<ItemStack> i = player.getInventory().items;
             for (ItemStack stack : i) {
                 Item current = stack.getItem();
-                if(current == ModItems.SOUL_CHAIN.get()) {
-                    current.onDroppedByPlayer(stack, player);
+                if (current instanceof SoulChainItem soulChain) {
+                    soulChain.onDroppedByDead(stack, player);
                 }
             }
         }
