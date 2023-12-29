@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "semihardcore:soul"
+    },
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "B": {
+      "item": "minecraft:blaze_powder"
+    },
+    "A": {
+      "item": "minecraft:soul_sand"
+    }
+  },
+  "pattern": [
+    " B ",
+    "CSC",
+    " A "
+  ],
+  "result": {
+    "item": "semihardcore:soul_chain"
+  }
+}

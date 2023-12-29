@@ -4,16 +4,12 @@ import com.github.brokko.semihardcore.config.ConfigHolder;
 import com.github.brokko.semihardcore.events.ClientEvent;
 import com.github.brokko.semihardcore.events.ModEvents;
 import com.github.brokko.semihardcore.register.*;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Mod(SemiHardcoreMod.MODID)
 public class SemiHardcoreMod {
@@ -28,7 +24,7 @@ public class SemiHardcoreMod {
 
         // Register Deferred Registers
         ModItems.ITEMS.register(modEventBus);
-        ModRecipe.RECIPES.register(modEventBus);
+        ModRecipes.RECIPES.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntity.BLOCK_ENTITIES.register(modEventBus);
         ModCreativeTab.CREATIVE_MODE_TABS.register(modEventBus);

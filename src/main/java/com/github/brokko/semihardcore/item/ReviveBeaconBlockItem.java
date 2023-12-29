@@ -1,6 +1,7 @@
 package com.github.brokko.semihardcore.item;
 
 import com.github.brokko.semihardcore.block.ReviveBeaconBlock;
+import com.github.brokko.semihardcore.util.InventoryHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
@@ -24,6 +25,9 @@ public class ReviveBeaconBlockItem extends BlockItem {
 
         CompoundTag nbt = itemStack.getOrCreateTag();
         nbt.putUUID("playerUUID", player.getUUID());
+
+        // Rename item to contain players name
+        InventoryHelper.updateName(itemStack, player);
     }
 
     @Override

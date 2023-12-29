@@ -2,10 +2,10 @@ package com.github.brokko.semihardcore.item;
 
 import com.github.brokko.semihardcore.capability.PlayerCapabilityProvider;
 import com.github.brokko.semihardcore.events.ModEvents;
+import com.github.brokko.semihardcore.util.InventoryHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public class SoulChainItem extends Item {
     }
 
     @Override
-    public InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, Player player, @NotNull LivingEntity livingEntity, @NotNull InteractionHand hand) {
         Level level = player.level();
 
         // Check if executed on client side
@@ -31,7 +31,7 @@ public class SoulChainItem extends Item {
 
         if (livingEntity instanceof Player target) {
             CompoundTag tag = stack.getOrCreateTag();
-            if(tag.hasUUID("boundUUI")) {
+            if (tag.hasUUID("boundUUI")) {
                 bindUUID(level, tag.getUUID("boundUUID"), UUID.randomUUID());
             }
 
@@ -40,6 +40,9 @@ public class SoulChainItem extends Item {
 
             target.getCapability(PlayerCapabilityProvider.PLAYER_DATA)
                     .ifPresent(data -> data.setBoundTo(player.getUUID()));
+
+            // Rename item to contain targets name
+            InventoryHelper.updateName(stack, target);
 
             return InteractionResult.SUCCESS;
         }
@@ -55,12 +58,44 @@ public class SoulChainItem extends Item {
         if (level.isClientSide)
             return false;
 
+        // Remove the 'bound' flag of the owning player from the dataset of the tagged player
         CompoundTag tag = item.getOrCreateTag();
-        if(tag.hasUUID("boundUUID")) {
+        if (tag.hasUUID("boundUUID")) {
             bindUUID(level, tag.getUUID("boundUUID"), UUID.randomUUID());
         }
 
         return super.onDroppedByPlayer(item, player);
+    }
+
+    /**
+     * The method onEntityItemPickUpEvent() is not called when the player dies, even
+     * though the item is dropped. Therefore, we need to construct the
+     * event ourselves using the EntityItemPickupEvent of the event bus.
+     * <p>
+     * This method is always called from server side!
+     * <p>
+     * (Should be encapsulated in an interface in the future)
+     */
+    public void onDroppedByDead(ItemStack stack, Player player) {
+        onDroppedByPlayer(stack, player);
+    }
+
+    /**
+     * The Item class does not contain a method that is called when the player dies and
+     * the ItemStack is dropped from their inventory. Therefore, we need to construct the
+     * event ourselves using the EntityItemPickupEvent of the event bus.
+     * <p>
+     * This method is always called from server side!
+     * <p>
+     * (Should be encapsulated in an interface in the future)
+     */
+    public void onPickUpByPlayer(ItemStack stack, Player player) {
+        // Set the 'bound' flag of the tagged player to the player who picked up the item
+        CompoundTag tag = stack.getOrCreateTag();
+        if (tag.hasUUID("boundUUID")) {
+            bindUUID(player.level(), tag.getUUID("boundUUID"), player.getUUID());
+        }
+
     }
 
     private void bindUUID(Level level, UUID deadPlayer, UUID owningPlayer) {
