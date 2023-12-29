@@ -13,12 +13,15 @@
     },
     "T": {
       "item": "minecraft:totem_of_undying"
+    },
+    "G": {
+      "item": "minecraft:soul_soil"
     }
   },
   "pattern": [
-    " E ",
-    "STS",
-    "DDD"
+    "DTD",
+    " S ",
+    "GEG"
   ],
   "result": {
     "item": "semihardcore:revive_beacon"

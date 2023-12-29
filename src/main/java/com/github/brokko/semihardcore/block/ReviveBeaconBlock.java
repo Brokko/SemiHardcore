@@ -1,8 +1,6 @@
 package com.github.brokko.semihardcore.block;
 
-import com.github.brokko.semihardcore.capability.PlayerCapabilityCache;
 import com.github.brokko.semihardcore.capability.PlayerCapabilityProvider;
-import com.github.brokko.semihardcore.events.ModEvents;
 import com.github.brokko.semihardcore.register.ModBlockEntity;
 import com.github.brokko.semihardcore.register.ModItems;
 import com.github.brokko.semihardcore.util.InventoryHelper;
@@ -16,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,8 +21,6 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.loading.FMLConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
