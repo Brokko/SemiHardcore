@@ -42,4 +42,4 @@ dropped upon removal, even while using Silck Touch!*
 
 ## License
 
-The mod is free software and released under the GPLv2. Notice that Forge and other dependencies have their own licenses.
+The mod is free software and released under the GPLv3. Notice that Forge and other dependencies have their own licenses.
